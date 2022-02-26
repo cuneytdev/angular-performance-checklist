@@ -27,12 +27,12 @@ Bazı yöntemler her iki kategoriye de girmektedir, ancak kullanım durumları v
 
 Çoğu yöntemin hem HTTP/1.1 hem de HTTP/2 için geçerli olduğunu unutmayın. İstisna olan durumlarda, protokolün hangi versiyonuna uygulanabileceği belirtilecektir.
 
-## Table of Content
+## İçerik
 
 - [Angular Performance Checklist](#angular-2-performance-checklist)
-    - [Introduction](#introduction)
-    - [Table of Content](#table-of-content)
-    - [Network performance](#network-performance)
+    - [Giriş](#giriş)
+    - [İçerik](#İçerik)
+    - [Network performansı](#network-performansı)
         - [Bundling](#bundling)
         - [Minification and Dead code elimination](#minification-and-dead-code-elimination)
         - [Remove template whitespace](#remove-template-whitespace)
@@ -64,17 +64,17 @@ Bazı yöntemler her iki kategoriye de girmektedir, ancak kullanım durumları v
 - [Conclusion](#conclusion)
 - [Contributing](#contributing)
 
-## Network performance
+## Network performansı
 
-Some of the tools in this section are still in development and are subject to change. The Angular core team is working on automating the build process for our applications as much as possible so a lot of things will happen transparently.
+Bu bölümdeki yöntemlerden bazıları hala geliştirme aşamasındadır ve değişebilmektedir. Angular ekibi, pek çok şeyin açık şekilde gerçekleşmesi için uygulama oluşturma sürecini mümkün olduğunca otomatize etmeye çalışıyor.
 
 ### Bundling
 
-Bundling is a standard practice aiming to reduce the number of requests that the browser needs to perform in order to deliver the application requested by the user. In essence, the bundler receives as an input a list of entry points and produces one or more bundles. This way, the browser can get the entire application by performing only a few requests, instead of requesting each individual resource separately.
+Paketleme kullanıcının istekte bulunduğu bir uygulamaya erişebilmesi için tarayıcının yapcağı istek sayısını azaltmayı amaçlayan standart bir uygulamadır. Aslında paketleyici girdi olarak birden fazla giriş noktaları alır ve bir veya daha fazla paket üretir. Bu şekilde tarayıcı, her bir kaynağı ayrı ayrı istemek yerine, yalnızca birkaç istek gerçekleştirerek uygulamanın tamamını alabilir.
 
-As your application grows bundling everything into a single large bundle would again be counterproductive. Explore Code Splitting techniques using Webpack.
+Uygulamanın boyutu büyüdükçe her şeyi tek bir pakette toplamak da uygulamanız için bir dezavantaj olacaktır. Bu yüzden Webpack kullanarak Code Splitting tekniklerini kullanmak gerekmektedir.
 
-**Additional http requests will not be a concern with HTTP/2 because of the [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) feature.**
+**Ek http istekleri will HTTP/2'nin [server push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) özelliğinden dolayı sorun olmayacaktır.**
 
 **Tooling**
 
