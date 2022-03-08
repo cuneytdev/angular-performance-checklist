@@ -78,17 +78,18 @@ Uygulamanın boyutu büyüdükçe her şeyi tek bir pakette toplamak da uygulama
 
 **Tooling**
 
-Tools which allows us to bundle our applications efficiently are:
+Uygulamalarımızı en verimli şekilde paketlememizi sağlayan araçlar şunlardır:
 
-- [Webpack](https://webpack.js.org) - provides efficient bundling by performing [tree-shaking](#tree-shaking).
-- [Webpack Code Splitting](https://webpack.js.org/guides/code-splitting/) - Techniques to split your code.
-- [Webpack & http2](https://medium.com/webpack/webpack-http-2-7083ec3f3ce6#.46idrz8kb) - Need for splitting with http2.
-- [Rollup](https://github.com/rollup/rollup) - provides bundling by performing efficient tree-shaking, taking advantage of the static nature of the ES2015 modules.
-- [Google Closure Compiler](https://github.com/google/closure-compiler) - performs plenty of optimizations and provides bundling support. Originally written in Java, since recently it also has a [JavaScript version](https://www.npmjs.com/package/google-closure-compiler) that can be [found here](https://www.npmjs.com/package/google-closure-compiler).
+- [Webpack](https://webpack.js.org) - [tree-shaking](#tree-shaking) gerçekleştirerek paketlemeyi sağlar.
+- [Webpack Code Splitting](https://webpack.js.org/guides/code-splitting/) - Kodu farklı bölümlere ayırmayı sağlar.
+- [Webpack & http2](https://medium.com/webpack/webpack-http-2-7083ec3f3ce6#.46idrz8kb) - http2 ile birlikte kod bölümlemeyi sağlar.
+- [Rollup](https://github.com/rollup/rollup) - ES2015 modüllerinin statik yapısından yararlanarak tree-shaking kullarak paketlemeyi sağlar.
+- [Google Closure Compiler](https://github.com/google/closure-compiler) - Çok sayıda optimizasyon gerçekleştirir ve paketleme desteği sağlar. Orijinal olarak Java'da yazılmıştır. JavaScript versiyon'una [buradan erişilebilir.](https://www.npmjs.com/package/google-closure-compiler).
 - [SystemJS Builder](https://github.com/systemjs/builder) - provides a single-file build for SystemJS of mixed-dependency module trees.
+- [SystemJS Builder](https://github.com/systemjs/builder) - Karışık bağımlığı olan SystemJS için tekli dosya oluşturmayı sağplar.
 - [Browserify](http://browserify.org/).
 
-**Resources**
+**Kaynaklar**
 
 - ["Building an Angular Application for Production"](http://blog.mgechev.com/2016/06/26/tree-shaking-angular2-production-build-rollup-javascript/)
 - ["2.5X Smaller Angular Applications with Google Closure Compiler"](http://blog.mgechev.com/2016/07/21/even-smaller-angular2-applications-closure-tree-shaking/)
