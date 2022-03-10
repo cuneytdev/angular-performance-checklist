@@ -94,33 +94,30 @@ Uygulamalarımızı en verimli şekilde paketlememizi sağlayan araçlar şunlar
 - ["Building an Angular Application for Production"](http://blog.mgechev.com/2016/06/26/tree-shaking-angular2-production-build-rollup-javascript/)
 - ["2.5X Smaller Angular Applications with Google Closure Compiler"](http://blog.mgechev.com/2016/07/21/even-smaller-angular2-applications-closure-tree-shaking/)
 
-### Minification and dead code elimination
+### Küçültme ve ölü kodun kaldırılması
 
-These practices allow us to minimize the bandwidth consumption by reducing the payload of our application.
+Bu yöntemler, uygulamamızın yükünü azaltarak bant genişliği tüketimini en aza indirmemizi sağlar.
 
 **Tooling**
 
-- [Uglify](https://github.com/mishoo/UglifyJS) - performs minification such as mangling variables, removal of comments & whitespace, dead code elimination, etc. Written completely in JavaScript, has plugins for all popular task runners.
-- [Google Closure Compiler](https://github.com/google/closure-compiler) - performs similar to uglify type of minification. In advanced mode, it transforms the AST of our program aggressively in order to be able to perform even more sophisticated optimizations. It has also a [JavaScript version](https://www.npmjs.com/package/google-closure-compiler) that can be [found here](https://www.npmjs.com/package/google-closure-compiler). GCC also supports *most of the ES2015 modules syntax* so it can [perform tree-shaking](#tree-shaking).
-
-**Resources**
+- [Uglify](https://github.com/mishoo/UglifyJS) - değişkenleri yönetme, yorumların ve boşlukların kaldırılması, ölü kodların ortadan kaldırılması vb. gibi küçültme işlemlerini gerçekleştirir. Tamamen JavaScript ile yazılmıştır, tüm popüler görev yürütücüler için eklentilere sahiptir.
+-[Google Closure Compiler](https://github.com/google/closure-compiler) - "Uglify" küçültme yöntemlerine benzer çalışmaktadır. Gelişmiş modda uygulamamızın AST(Absctrack Syntax Tree)'sini çok daha karmaşık optimizasyonlarda bile dönüştürmek için kullanılır. Ayrıca [JavaScript versiyonu](https://www.npmjs.com/package/google-closure-compiler) [buradan bulunabilir.](https://www.npmjs.com/package/google-closure-compiler). Bunun yanında GCC *çoğu ES2015 modül sözdizimini* desteklemektedir. Bu yüzden [tree-shaking](#tree-shaking) de uygulayabilmektedir.
+  
+**Kaynaklar**
 
 - ["Building an Angular Application for Production"](http://blog.mgechev.com/2016/06/26/tree-shaking-angular2-production-build-rollup-javascript/)
 - ["2.5X Smaller Angular Applications with Google Closure Compiler"](http://blog.mgechev.com/2016/07/21/even-smaller-angular2-applications-closure-tree-shaking/)
 
-### Remove template whitespace
+### Şablon Boşluklarının Kaldırılması
 
-Although we don't see the whitespace character (a character matching the `\s` regex) it is still represented by bytes which are transferred over the network. If we reduce the whitespace from our templates to the minimum we will be respectively able to drop the bundle size of the AoT code even further.
-
-Thankfully, we don't have to do this manually. The `ComponentMetadata` interface provides the property `preserveWhitespaces` which by default has value `false` meaning that by default the Angular compiler will trim whitespaces to further reduce the size of our application. In case we set the property to `true` Angular will preserve the whitespace.
-
-- [preserveWhitespaces in the Angular docs](https://angular.io/api/core/Component#preserveWhitespaces)
+Boşluk karakterlerini ('\s' ifadesiyle eşleşen bir karakter) görmememize rağmen, yine de ağ üzerinden aktarılan baytlarla temsil edilir. Şablonlarımızdaki boşlukları minimuma indirmek, AOT kodumuzun paketlenmiş boyutunu daha da azaltılmış olacaktır.
+Neyse ki bunu manual olarak yapmak durumunda değiliz. `ComponentMetadata` interface'inde bulunan `preserveWhitespaces` default olarak `false` değerini alarak uygulama içerisindeki boşluk ifadelerini Angular derleyicisi kaldıracaktır. Eğer `preserveWhitespace` özelliği `true` olarak düzenlenirse boşluk ifadeleri korunacaktır.
+- [Angular dökümanı: preserveWhitespaces](https://angular.io/api/core/Component#preserveWhitespaces)
 
 ### Tree-shaking
+Uygulamalarımızın son sürümü için, genellikle Angular ve/veya herhangi bir üçüncü taraf kütüphanesi tarafından oluşturulmuş kodun tamamı, geliştiricinin yazmuş olduğu kısımlar bile düşünüldüğünde tamamen kullanılmamaktadır. ES2015 modüllerinin statik yapısı sayesinde uygulamalarımızda referans verilmeyen kodlardan kurtulabiliyoruz.
 
-For the final version of our applications, we usually don't use the entire code which is provided by Angular and/or any third-party library, even the one that we've written. Thanks to the static nature of the ES2015 modules, we're able to get rid of the code which is not referenced in our apps.
-
-**Example**
+**Örnek**
 
 ```javascript
 // foo.js
@@ -131,24 +128,25 @@ export bar = () => 'bar';
 import { foo } from './foo';
 console.log(foo());
 ```
-Once we tree-shake and bundle `app.js` we'll get:
+
+tree-shake uygulandığında ve paketlendiğinde `app.js` dosyası şu şekilde olacaktır:
 
 ```javascript
 let foo = () => 'foo';
 console.log(foo());
 ```
 
-This means that the unused export `bar` will not be included into the final bundle.
+Bunun anlamı kullanılmayan ve export edilmiş `bar` fonksiyonu pakete dahil edilmeyecektir.
 
 **Tooling**
 
-- [Webpack](https://webpack.js.org) - provides efficient bundling by performing [tree-shaking](#tree-shaking). Once the application has been bundled, it does not export the unused code so it can be safely considered as dead code and removed by Uglify.
-- [Rollup](https://github.com/rollup/rollup) - provides bundling by performing an efficient tree-shaking, taking advantage of the static nature of the ES2015 modules.
-- [Google Closure Compiler](https://github.com/google/closure-compiler) - performs plenty of optimizations and provides bundling support. Originally written in Java, since recently it has also a [JavaScript version](https://www.npmjs.com/package/google-closure-compiler) that can be [found here](https://www.npmjs.com/package/google-closure-compiler).
+- [Webpack](https://webpack.js.org) - [tree-shaking](#tree-shaking) ile verimli bir paketlemeyi sağlamaktadır. Uygulama paketlendikten sonra, kullanılmayan kodu dışa aktarmaz, böylece kolayca ölü kod olarak kabul edilebilir ve Uglify tarafından kaldırılabilir.
+- [Rollup](https://github.com/rollup/rollup) - ES2015 modüllerinin statik yapısından yararlanarak verimli bir tree-shaking gerçekleştirir.
+- [Google Closure Compiler](https://github.com/google/closure-compiler) - çok sayıda optimizasyon gerçekleştirir ve paketleme desteği sağlar. Java ile yazılmıştır, bunun yanında [JavaScript versiyonu](https://www.npmjs.com/package/google-closure-compiler) da [bulunmaktadır](https://www.npmjs.com/package/google-closure-compiler).
 
-*Note:* GCC does not support `export *` yet, which is essential for building Angular applications because of the heavy usage of the "barrel" pattern.
+*Not:* GCC, `barrel` kalıbının yoğun kullanımı nedeniyle Angular uygulamaları oluşturmak için gerekli olan `export *` henüz desteklenmemektedir.
 
-**Resources**
+**Kaynaklar**
 
 - ["Building an Angular Application for Production"](http://blog.mgechev.com/2016/06/26/tree-shaking-angular2-production-build-rollup-javascript/)
 - ["2.5X Smaller Angular Applications with Google Closure Compiler"](http://blog.mgechev.com/2016/07/21/even-smaller-angular2-applications-closure-tree-shaking/)
@@ -156,11 +154,10 @@ This means that the unused export `bar` will not be included into the final bund
 
 ### Tree-Shakeable Providers
 
-Since the release of Angular version 6, The angular team provided a new feature to allow services to be tree-shakeable, meaning that your services will not be included in the final bundle unless they're being used by other services or components. This can help reduce the bundle size by removing unused code from the bundle.
+Angular 6 versiyonu ile birlikte, Angular geliştirici takımı servislerin tree-shakeable olabileceği bir özellik yayınladı. Böylece bir component veya bir servis tarafından kullanılmayan servisler uygulama paketine dahil edilmeyerek paket boyutunun azaltılmasına yardımcı olacaktır.
 
-You can make your services tree-shakeable by using the `providedIn` attribute to define where the service should be initialized when using the `@Injectable()` decorator. Then you should remove it from the `providers` attribute of your `NgModule` declaration as well as its import statement as follows.
-
-Before:
+Servisler oluşturulurken `@Injectable()` decorator'u ile birlikte `provideIn` özelliği kullanılarak nerede başlatılacağını belirtilebilir ve tree-shakeable hale getirilebilir. Bu şekilde oluşturulan servisler NgModule içerisinden aşağıdaki gibi kaldırılabilir.
+Öncesi:
 
 ```ts
 // app.module.ts
@@ -191,7 +188,7 @@ import { Injectable } from '@angular/core'
 export class MyService { }
 ```
 
-After:
+Sonrası:
 
 ```ts
 // app.module.ts
@@ -222,24 +219,23 @@ import { Injectable } from '@angular/core'
 })
 export class MyService { }
 ```
+`MyService` herhangi component veya serviste kullanılmadığı durumda pakete dahil edilmeyecektir.
 
-If `MyService` is not injected in any component/service, then it will not be included in the bundle.
-
-**Resources**
+**Kaynaklar**
 
 - [Angular Providers](https://angular.io/guide/providers)
 
-### Ahead-of-Time (AoT) Compilation
+### Zamanından Önce Derleme (AOT - Ahead Of Time Compilation)
 
 A challenge for the available in the wild tools (such as GCC, Rollup, etc.) are the HTML-like templates of the Angular components, which cannot be analyzed with their capabilities. This makes their tree-shaking support less efficient because they're not sure which directives are referenced within the templates. The AoT compiler transpiles the Angular HTML-like templates to JavaScript or TypeScript with ES2015 module imports. This way we are able to efficiently tree-shake during bundling and remove all the unused directives defined by Angular, third-party libraries or by ourselves.
 
-**Resources**
+**Kaynaklar**
 
 - ["Ahead-of-Time Compilation in Angular"](http://blog.mgechev.com/2016/08/14/ahead-of-time-compilation-angular-offline-precompilation/)
 
-### Compression
+### Sıkıştırma
 
-Compression of the responses' payload standard practice for bandwidth usage reduction. By specifying the value of the header `Accept-Encoding`, the browser hints the server which compression algorithms are available on the client's machine. On the other hand, the server sets the value for the `Content-Encoding` header of the response in order to tell the browser which algorithm has been chosen for compressing the response.
+Bant genişliği kulanımını azaltmak için yanıtların yük standartının sıkıştırılması için bazı konfigürasyonlar yapılabilir. `Accept-Encoding` başlığına bir değer verilerek tarayıcı tarafında kullanıcının hangi sıkıştırma algoritmalarının kullanılabileceği konsunda sunucu tarafına bilgi verebilir. Diğer yandan sunucu, bir isteğe cevap verirken, cevabın hangi sıkıştırılması için hangi algoritma kullanıldığını tarayıcıya `Content-Encoding` başlık değerinde belirtmektedir.
 
 **Tooling**
 
