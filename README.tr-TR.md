@@ -239,19 +239,20 @@ Bant genişliği kulanımını azaltmak için yanıtların yük standartının s
 
 **Tooling**
 
-The tooling here is not Angular-specific and entirely depends on the web/application server that we're using. Typical compression algorithms are:
+Buradaki araçlar Angular'a özgü değildir ve tamamen kullandığımız web/uygulama sunucusuna bağlıdır. Tipik sıkıştırma algoritmaları şunlardır:
 
-- deflate - a data compression algorithm and associated file format that uses a combination of the LZ77 algorithm and Huffman coding.
-- [brotli](https://github.com/google/brotli) - a generic-purpose lossless compression algorithm that compresses data using a combination of a modern variant of the LZ77 algorithm, Huffman coding, and 2nd order context modeling, with a compression ratio comparable to the best currently available general-purpose compression methods. It is similar in speed with deflate but offers more dense compression.
+- deflate - LZ77 algoritması ve Huffman kodlamasının bir kombinasyonunu kullanan bir veri sıkıştırma algoritması ve ilişkili dosya formatıdır.
+- [brotli](https://github.com/google/brotli) - LZ77 algoritmasının modern bir varyantı, Huffman kodlaması ve 2. dereceden bağlam modellemesinin bir kombinasyonunu kullanarak verileri şu anda mevcut olan en iyi genel amaçlı sıkıştırma yöntemleriyle karşılaştırılabilir bir sıkıştırma oranıyla sıkıştıran genel amaçlı kayıpsız bir sıkıştırma algoritması. Hız olarak deflate ile benzer fakat daha fazla sıkıştırma sağlamaktadır.
+  
 
-**Resources**
+  **Kaynaklar**
 
 - ["Better than Gzip Compression with Brotli"](https://hacks.mozilla.org/2015/11/better-than-gzip-compression-with-brotli/)
 - ["2.5X Smaller Angular Applications with Google Closure Compiler"](http://blog.mgechev.com/2016/07/21/even-smaller-angular2-applications-closure-tree-shaking/)
 
-### Pre-fetching Resources
+### Kaynakları Önden Getirme (Pre-fetching resources)
 
-Resource pre-fetching is a great way to improve user experience. We can either pre-fetch assets (images, styles, modules intended to be [loaded lazily](#lazy-loading-of-resources), etc.) or data. There are different pre-fetching strategies but most of them depend on specifics of the application.
+Kaynakların önceden getirilmesi kullanıcı deneyimini arttırmak için iyi bir yöntemdir. Bunun yanında varlıkları assets ([tembel (lazy)](#lazy-loading-of-resources), yüklenmesi amaçlanan resimler, modüller vs.) ve verileri de önden getirebiliriz. Farklı önden getirme yöntemleri vardır, ancak bunların çoğu uygulamanın özelliklerine bağlıdır.
 
 ### Lazy-Loading of Resources
 
